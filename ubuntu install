@@ -1,0 +1,12 @@
+在按照小鱼的教程进行Ubuntu双系统的安装的时候，完成了启动盘的制作（ubuntu22.04.5+Rufus）,并且关闭了安全启动（技嘉主板不是很好找这个设置，得搜索）并且调整的启动优先级以后出现了黑屏
+
+首先我查询了一下，普遍说是因为ubuntu在没有安装显卡驱动的情况下会出现安装黑屏，但是因为是不带核显的cpu因此没办法物理断开或者软件断开GUP，只能是尝试在启动设置中进行如下测试
+      选择try or install ubuntu 但是不要回车，按e进入grup启动设置
+      首先在linux /casper/vmlinuz file=/cdrom/preseed/ubuntu.seed maybe-ubiquity quiet splash nomodeset ---这个里面手动添加了nomodeset，但是在ctrl + x后出现booting commond list并且无法操作，GPT说是因为没有设置正确因此无法启动
+      于是在再次查询后得知可能是固态的设置问题，于是在nomodeset后面又添加了acpi=off，再次按ctrl+x成功进入安装界面
+
+在安装过程中出现安装的三个文件一直下载不下来，选择了跳过，查了一下，这个是下载的相关的软件，不影响，跳过以后开始离线安装系统
+
+安装完成的时候显示grub错误，然后显示需要重启，重启以后就进入GNU GRUB version2.06
+    找到的教程网址如下：https://www.geeksforgeeks.org/linux-unix/how-to-fix-minimal-bash-like-line-editing-is-supported-grub-error-in-linux/
+    

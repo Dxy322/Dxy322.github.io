@@ -1,0 +1,47 @@
+在上一次请人安装ubuntu成功以后因为卸载了一个windows的修复系统直接给grub引导干崩了，现在是第二次请人来进行安装，以下为记录安装过程以及新疆管的问题：
+
+安装所用到的软件disk
+
+大概相关的知识如下，如果后续有时间可以了解一下，感觉在日后可能机器人系统如果有全新的创新可能可以用上：
+
+1. 操作系统启动原理	BIOS/UEFI 启动流程、MBR/GPT 分区结构、引导扇区作用	删除“Windows 修复系统”时可能删除了 EFI 分区或引导文件
+2. 启动引导程序（Bootloader）	GRUB（Linux）、Windows Boot Manager（Windows）如何管理多系统启动	Ubuntu 的 GRUB 引导项依赖 EFI 分区内的启动文件
+3. EFI / ESP（系统引导分区）结构	/boot/efi 挂载点、EFI/Microsoft/Boot/ 与 EFI/ubuntu/ 文件夹结构	删除“修复系统”时可能误删了 EFI/ubuntu 或 EFI/Microsoft
+4. 双系统启动机制（Dual Boot）	GRUB 与 Windows Boot Manager 的共存与优先级控制	EasyUEFI 修改引导顺序时可能破坏了原有的启动链
+5. 分区与文件系统知识	NTFS、EXT4、FAT32 各自作用	修复系统或EFI分区通常是FAT32格式，容易被误删
+
+阶段 1：了解计算机启动流程
+关键词：
+BIOS vs UEFI 区别
+MBR vs GPT 分区表
+EFI System Partition（ESP）的作用
+推荐学习资料：
+Bilibili 搜索 “UEFI 启动原理详解”
+或阅读博客：阮一峰：UEFI 与启动过程
+
+✅ 阶段 2：学习 GRUB 与 Bootloader
+关键词：
+GRUB2 结构（stage1, stage2, grub.cfg）
+grub-install 与 update-grub 命令
+修复 GRUB 的方法（如 boot-repair 工具）
+推荐方向：
+Ubuntu 官方文档：https://help.ubuntu.com/community/Grub2
+
+✅ 阶段 3：理解双系统共存机制
+关键词：
+GRUB 如何检测 Windows
+EasyUEFI / efibootmgr 管理引导顺序
+/boot/efi/EFI/ 目录结构与启动项对应关系
+
+✅ 阶段 4：实战类学习（推荐）
+用虚拟机 (VMware 或 VirtualBox) 模拟安装 Ubuntu + Windows
+故意删除 EFI 分区、修复 GRUB，掌握整个恢复过程
+
+🛠️ 延伸阅读方向
+磁盘结构与数据恢复（帮助理解为什么删除一个分区可能影响另一个系统）
+系统备份与镜像恢复工具（如 Macrium Reflect、Clonezilla）
+Linux 文件系统挂载与分区管理（lsblk, fdisk, mount
+
+
+还是像上次那样用一个佳作R-DruveUnafePortable的软件镜像过来
+接着就是中设置UEFI，这个好像是可以直接在某个文件或者设置中找到ubuntu以及

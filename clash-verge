@@ -1,0 +1,11 @@
+于25.10.19在Ubuntu上下载梯子发现用nnbin.com网址下的deb安装包安装以后出现打开软件白窗的问题，查到如下资料并且完成修复，不过clash中的链接配置网址链接超时，不知道是什么原因
+
+直接原因：安装了 gpaste
+解决办法：
+vim /usr/share/applications/clash-verge.desktop 
+将 Exec 改为：Exec=env WEBKIT_DISABLE_COMPOSITING_MODE=1 clash-verge
+或者直接在控制台中执行：WEBKIT_DISABLE_COMPOSITING_MODE=1 clash-verge 
+根本原因：这个环境变量的作用是禁用 WebKit 使用的硬件加速合成，这在某些情况下可以解决渲染问题，特别是在使用某些图形驱动或在特定的硬件配置下。可能是 GPaste 安装或更新了某些与图形相关的库，这影响了 WebKit 的渲染行为。 
+————————————————
+版权声明：本文为CSDN博主「Gaoithe」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/sinat_40471574/article/details/139650924

@@ -1,3 +1,49 @@
 ign gazebo所用的通讯管理器和ros2所用的通讯管理器不是互通的，之前老版本是gazebo_ros，现在是ros_ign插件来建立联系，且也只能多监视在通讯的话题，不能监察内部的通讯情况
 
 现在在逐渐了解很多软件的用法，但是对整个ubuntu系统的硬件调度以及软件机理相关的知识实在是匮乏，所以希望能在日后补全这一部分的知识漏洞
+
+了解到gazebo也有自己的存储模型的文件结构，但是gazebo使用sdf文件对机器人模型以及环境进行描述，而ros2以及moveit 使用urdf文件进行描述，chatgpt推荐以urdf文件作为模板，把这个文件转换成sdf文件格式构成gazebo模型文件
+
+未来如果结合ros2,moveit,gazebo,rviz2的话对机器人进行仿真以及操控会有的基础的文件结构：
+ros2_ws/
+├── src/
+│   ├── your_robot_description/      # 模型描述（URDF）
+│   │   ├── urdf/
+│   │   │   └── robot.urdf.xacro
+│   │   ├── meshes/
+│   │   │   ├── base_link.STL
+│   │   │   ├── arm_link.DAE
+│   │   ├── launch/
+│   │   │   └── display.launch.py    # RViz显示模型
+│   │   └── package.xml / CMakeLists.txt
+│   │
+│   ├── your_robot_gazebo/           # 仿真功能包
+│   │   ├── worlds/
+│   │   │   ├── empty.world
+│   │   │   └── your_world.world
+│   │   ├── launch/
+│   │   │   └── gazebo.launch.py     # 启动 Gazebo + 机器人
+│   │   ├── models/
+│   │   │   └── your_robot/
+│   │   │       ├── model.config
+│   │   │       ├── model.sdf
+│   │   │       ├── meshes/
+│   │   │       ├── materials/
+│   │   ├── urdf/
+│   │   │   └── robot_gazebo.urdf.xacro
+│   │   └── package.xml / CMakeLists.txt
+│   │
+│   ├── your_robot_moveit_config/    # MoveIt配置
+│   │   ├── config/
+│   │   ├── launch/
+│   │   ├── srdf/
+│   │   └── package.xml / CMakeLists.txt
+│   │
+│   ├── your_robot_bringup/          # 统一启动包
+│   │   ├── launch/
+│   │   │   └── bringup.launch.py    # 启动所有组件
+│   │   └── package.xml / CMakeLists.txt
+│   │
+│   └── gazebo_ros_pkgs/             # Gazebo Classic ROS接口依赖包
+│
+└── build/ install/ log/

@@ -4,6 +4,21 @@ ign gazebo所用的通讯管理器和ros2所用的通讯管理器不是互通的
 
 了解到gazebo也有自己的存储模型的文件结构，但是gazebo使用sdf文件对机器人模型以及环境进行描述，而ros2以及moveit 使用urdf文件进行描述，chatgpt推荐以urdf文件作为模板，把这个文件转换成sdf文件格式构成gazebo模型文件
 
+gazebo的model文件夹内的文件结构如下：
+atabase
+
+    database.config : Meta data about the database. This is now populated automatically from CMakeLists.txt
+    model_1 : A directory for model_1
+        model.config : Meta-data about model_1
+        model.sdf : SDF description of the model
+        model.sdf.erb : Ruby embedded SDF model description
+        meshes : A directory for all COLLADA and STL files
+        materials : A directory which should only contain the textures and scripts subdirectories
+            textures : A directory for image files (jpg, png, etc).
+            scripts : A directory for OGRE material scripts
+        plugins: A directory for plugin source and header files
+
+
 未来如果结合ros2,moveit,gazebo,rviz2的话对机器人进行仿真以及操控会有的基础的文件结构：
 ros2_ws/
 ├── src/

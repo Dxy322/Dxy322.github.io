@@ -1,1 +1,13 @@
 1.用gazebo加载模型gazebo崩溃，之前在笔记本上也出现过这种情况，目前尝试查看夏令营带回来的代码看能不能找到解决问题的办法
+ <geometry>
+        <mesh filename="package://car_urdf/meshes/left_front_orient_Link.STL"/>
+      </geometry>
+改为
+      <geometry>
+        <mesh
+          filename="file://$(find car_urdf)/meshes/base_link.STL" />
+      </geometry>
+————————————————
+版权声明：本文为CSDN博主「G果」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_42899627/article/details/142005482
+成功解决问题

@@ -13,10 +13,52 @@
 成功解决问题
 
 
-2.接下来是解决模型在gazebo中不显色的问题，以及添加插件实现传感器功能并且完成在名空间内发布名重定向以及在rviz的订阅，还有gazebo中机械臂关节疲软的问题
+2.接下来是解决模型在gazebo中不显色的问题，以及添加插件实现传感器功能并且完成在名空间内发布名重定向以及在rviz的订阅
 gazebo中不显色主要是因为之前的显色配置都是rviz兼容的，而gazebo不兼容，想要在gazebo中显色得额外在link标签内用gazbeo标签或者其他的显色配置标签来进行配置
+使用了ros2和gazebo联动的一个插件完成了话题的发布并成功的在rviz2中进行订阅，不过再次发现很多libgazebo_ros开头的插件都是没有那么好用的，尤其是在gazebo11以及ros2环境下，尽量寻找gazebo和ros2环境下使用的插件：
+  <gazebo reference="depth_cam_link">
+    <sensor name="depth_camera_sensor" type="depth">
+      <update_rate>30.0</update_rate>
+      <visualize>true</visualize>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>5.0</far>
+        </clip>
+      </camera>
 
-3.对ros2的许多命令都还不熟悉，这对后续理解整个结构和工作流以及可能存在的文件编写有阻碍
+      <plugin name="gazebo_ros_camera" filename="libgazebo_ros_camera.so">
+        <ros>
+          <namespace>/camera</namespace>
+          <argument>depth_enabled:=true</argument>
+          <argument>point_cloud_enabled:=true</argument>
+        </ros>
 
-4.日后可能碰到的问题（在gazebo中添加深度相机需要的相关参数配置）在此留下可能能解决问题的网址，如果遇到了可以查阅以供参考：
+        <camera_name>depth_camera</camera_name>
+        <frame_name>depth_cam_link</frame_name>
+
+        <!-- ROS 话题 -->
+        <image_topic_name>color/image_raw</image_topic_name>
+        <camera_info_topic_name>color/camera_info</camera_info_topic_name>
+        <depth_image_topic_name>depth/image_raw</depth_image_topic_name>
+        <depth_camera_info_topic_name>depth/camera_info</depth_camera_info_topic_name>
+        <point_cloud_topic_name>depth/points</point_cloud_topic_name>
+
+        <pointCloudCutoff>0.3</pointCloudCutoff>
+        <pointCloudCutoffMax>5.0</pointCloudCutoffMax>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+3.日后可能碰到的问题（在gazebo中添加深度相机需要的相关参数配置）在此留下可能能解决问题的网址，如果遇到了可以查阅以供参考：
 https://classic.gazebosim.org/tutorials?tut=ros_depth_camera&cat=connect_ros
+
+
+4.对ros2的许多命令都还不熟悉，这对后续理解整个结构和工作流以及可能存在的文件编写有阻碍，还有gazebo中机械臂关节疲软的问题
+包括如果使用libgazebo_ros_diff插件轮子进行控制会出现轮子乱跳问题，以及就算不配置插件，轮子也会出现与底盘脱落的情况，不知道是不是自重过大导致物理上成受不了

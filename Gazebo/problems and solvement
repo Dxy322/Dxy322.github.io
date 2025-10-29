@@ -82,3 +82,5 @@ https://classic.gazebosim.org/tutorials?tut=ros_depth_camera&cat=connect_ros
 报错类似如下：
 Failed loading controller arm_controller
 且相关的可参考官方文档在如下网址：https://control.ros.org/humble/doc/gazebo_ros2_control/doc/index.html?utm_source=chatgpt.com
+
+在这个手册中的例子中可以控制关节移动，且非瞬间位置变换，而是有渐进的关节变换

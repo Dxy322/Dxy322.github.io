@@ -90,3 +90,53 @@ Failed loading controller arm_controller
 例如我是想加载jetrover_ws下的某个urdf，那就必须source ～/jetrover_ws/install/setup.bash
 目前是将arm.urdf.xacro文件直接转换成urdf文件格式是可以在moevit中加载的，但是可能还是需要提前编译整个工作空间，且直接将jetrover文件转换成xacro文件格式依旧无法加载，不过考虑到后续发布控制机械臂的话题只需要包括机械臂的几个关节就可以，一次不一定非要包含底座部分
 
+
+
+          Moveit! 问题
+          问题1： 当运行
+          roslaunch moveit_setup_assistant setup_assistant.launch
+          选择模型加载时，会突然系统崩溃。提示如下信息：
+          [rospack] Error: no package given
+          [librospack]: error while executing command
+          [ INFO] [1496720764.674712823]: Running 'rosrun xacro xacro.py /home/carl/Desktop/Project/turtlebot2i/src/turtlebot2i/turtlebot2i_description/robots/kobuki_interbotix_zr300.urdf.xacro'...
+          [ INFO] [1496720765.546447152]: Loaded turtlebot robot model.
+          [ INFO] [1496720765.546519891]: Setting Param Server with Robot Description
+          [ INFO] [1496720765.555161202]: Robot semantic model successfully loaded.
+          [ INFO] [1496720765.555195476]: Setting Param Server with Robot Semantic Description
+          [ INFO] [1496720765.570819680]: Loading robot model 'turtlebot'...
+          [ INFO] [1496720765.570888991]: No root/virtual joint specified in SRDF. Assuming fixed joint
+          ================================================================================REQUIRED process [moveit_setup_assistant-1] has died!
+          process has died [pid 8123, exit code -11, cmd /opt/ros/indigo/lib/moveit_setup_assistant/moveit_setup_assistant __name:=moveit_setup_assistant __log:=/home/carl/.ros/log/689c9c26-4a64-11e7-8883-d85de2b5c407/moveit_setup_assistant-1.log].
+          log file: /home/carl/.ros/log/689c9c26-4a64-11e7-8883-d85de2b5c407/moveit_setup_assistant-1*.log
+          Initiating shutdown!
+          ================================================================================
+          [moveit_setup_assistant-1] killing on exit
+          shutting down processing monitor...
+          ... shutting down processing monitor complete
+          done
+          
+          说明：
+          
+              单独加载模型没问题.
+              使用moveit_setup加载其他模型有的没问题（例如，Turtlebot）。
+              只是使用有些模型会出现突然崩溃的情况。
+          解决方案：
+          方式1：检查模型中模型的属性，里面的是否加载的是.dae或.stl文件，如果有，将.dae或.stl替换成urdf本身自有的属性，例如，等。 举例：将
+                <collision>
+                  <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+                  <geometry>
+                    <mesh filename="package://turtlebot2i_description/meshes/sensors/sr300.stl" scale="2.0 2.0 2.0" />
+                  </geometry>
+                </collision>
+          
+          替换成
+                <collision>
+                  <origin xyz="0 0 0" rpy="0 0 0"/>
+                  <geometry>
+                    <cylinder length="0.006" radius="0.170"/>
+                  </geometry>
+                </collision>
+          
+          方式2：测试了下moveit_setup_assistant，发现模型加载mesh时，会出错，方式1是将现有属性替换，另外一种方式是改变自己制作的dae或stl文件名，不清楚什么原因，moveit_setup_assistant加载dae或stl时，模型名必须为小写，如果有大写出现就会报错，例如将Test_Finger.dae修改为test_finger.dae就不会造成崩溃。
+          
+          方式3：如果是在加载别人做的dae或stl文件时，需要将dae或stl文件重写，我使用的是blender，将stl重新导出stl就不会造成崩溃。其他3D建模也可以尝试下，3D Max，solidworks，inventor等等。

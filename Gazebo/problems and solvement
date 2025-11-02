@@ -87,3 +87,5 @@ Failed loading controller arm_controller
 
 在用ros2 launch moveit_setup_assignment setup_assignment.launch.py文件启动moveit2的一键配置的时候出现个别模型load files崩溃的情况，包括但不限于加载官方的resources库中的文件
 在尝试重新编译整个工作空间以后问题解决
+目前是将arm.urdf.xacro文件直接转换成urdf文件格式是可以在moevit中加载的，但是可能还是需要提前编译整个工作空间，且直接将jetrover文件转换成xacro文件格式依旧无法加载，不过考虑到后续发布控制机械臂的话题只需要包括机械臂的几个关节就可以，一次不一定非要包含底座部分
+

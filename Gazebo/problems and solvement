@@ -140,3 +140,10 @@ Failed loading controller arm_controller
           方式2：测试了下moveit_setup_assistant，发现模型加载mesh时，会出错，方式1是将现有属性替换，另外一种方式是改变自己制作的dae或stl文件名，不清楚什么原因，moveit_setup_assistant加载dae或stl时，模型名必须为小写，如果有大写出现就会报错，例如将Test_Finger.dae修改为test_finger.dae就不会造成崩溃。
           
           方式3：如果是在加载别人做的dae或stl文件时，需要将dae或stl文件重写，我使用的是blender，将stl重新导出stl就不会造成崩溃。其他3D建模也可以尝试下，3D Max，solidworks，inventor等等。
+
+
+目前在moveit_setup_assignment中load files崩溃，在使用chat进行排除最后结论如下：
+         不是 GPU 驱动冲突造成的崩溃，而是 MoveIt 自身嵌入 RViz 视图的 Qt 属性访问 bug。
+         这个问题在 ROS 2 Humble 的某些版本 中非常常见（尤其是 2024 年前的 Debian 包版本）
+
+于11.4晚成功load files记载成功urdf文件，不过在运行demo_rviz.launch文件的时候MoveIt 启动文件（launch 文件）中 没有成功加载 SRDF 内容到参数服务器。无法成功显示模型文件

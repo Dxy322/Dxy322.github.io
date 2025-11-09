@@ -151,3 +151,6 @@ Failed loading controller arm_controller
 
 b站上在介绍moveit控制并规划机械臂轨迹并发布话题以供gazebo进行订阅，在这个视频中也出现了无法moveit开启的rviz窗口无法显示模型，但是在终端上有一个what()开头的报错显示moveit的关节速度限制传输数据类型应该是double但是给了一个int类型的数据
 在config文件夹内找到这个yaml文件给每个关节的速度限制的数据改变一下数据类型就可以正常显示了
+
+在启动moveit的时候输入以下命令可以正常启动：
+QT_QPA_PLATFORM=xcb ros2 launch moveit_setup_assistant setup_assistant.launch.py

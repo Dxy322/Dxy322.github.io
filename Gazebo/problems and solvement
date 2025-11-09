@@ -147,3 +147,7 @@ Failed loading controller arm_controller
          这个问题在 ROS 2 Humble 的某些版本 中非常常见（尤其是 2024 年前的 Debian 包版本）
 
 于11.4晚成功load files记载成功urdf文件，不过在运行demo_rviz.launch文件的时候MoveIt 启动文件（launch 文件）中 没有成功加载 SRDF 内容到参数服务器。无法成功显示模型文件
+
+
+b站上在介绍moveit控制并规划机械臂轨迹并发布话题以供gazebo进行订阅，在这个视频中也出现了无法moveit开启的rviz窗口无法显示模型，但是在终端上有一个what()开头的报错显示moveit的关节速度限制传输数据类型应该是double但是给了一个int类型的数据
+在config文件夹内找到这个yaml文件给每个关节的速度限制的数据改变一下数据类型就可以正常显示了

@@ -1,1 +1,20 @@
+launch文件调用结构：
+Src/bringup/launch/bringup.launch.py
+	Driver/controller/launch/controller.launch.py
+		Servo_controller/launch/servo_controller.launch.py
+			调用可执行文件/src/driver/servo_controller/servo_controller/controller_manager.py
+				其中以self.controllers字典保存对象jointpositioncontroller,这个对象报错每个joint相关的舵机信息
+				以servoManager对象来对所有对象进行控制
+
+
+
+
+
+实机测试：
+1.在确认controllerManager节点启动以后输入ros2 action list 观察是不是有如下：/follow_joint_trajectory action正常启动
+2.在jointTrajectoryActionController.py文件中定义的类中的action中的feedback函数中chat评论如下：
+	你贴的 follow_trajectory_callback 正是在干这些事，只是有一些类型没改完、实际误差没更新——架构是对的，但实现不完整。
+3.需要探究如果希望控制机械臂，那么需要什么流程。比如如果只是初始姿态到末端姿态，那么有init.launch.py就够了，在后续可以吧目标姿态作为launch参数在终端进行测试传输，或者是远程ssh传输
+	但是如果涉及到轨迹规划就要复杂的多，按照现在了解到的信息，需要moveit上层算法进行轨迹规划，输出trajectoryGoal参数，传递给自写的controllerManager节点，对这个轨迹进行时间点的分化，然后调用轨迹控制节点，转换成对硬件舵机控制的脉宽以及弧度等信息，下发给下位机做进一步处理
+	总的来说，如果想要涉及到算法处理，以及后续的深度学习，那么就一定会涉及到轨迹规划，所以了解控制机械臂的所有信息处理流程以及信息通讯流程非常重要
 

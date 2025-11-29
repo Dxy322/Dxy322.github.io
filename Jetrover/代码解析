@@ -13,6 +13,9 @@ Src/bringup/launch/bringup.launch.py
 
 			进一步调用servo_controller.py中的servo_manager类：
 				对接受到的信息进行了一次取值范围的确定以后以ServosPosition为话题类型,以 'ros_robot_controller/bus_servo/set_position'为话题名称发布
+
+			经查阅在ros_robot_controller功能包下的ros_robot_controller_node.py文件中找到了订阅ros_robot_controller/bus_servo/set_position话题的订阅
+				重构了状态位置信息，调用ros_robot_controller_sdk.py文件中的类方法：bus_servo_set_position
 	peripherals/launch/depth_camera.launch.py
 	peripherals/launch/lidar.launch.py
 	cmd=['ros2', 'launch', 'rosbridge_server', 'rosbridge_websocket_launch.xml'],

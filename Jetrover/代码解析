@@ -1,11 +1,28 @@
 launch文件调用结构：
 Src/bringup/launch/bringup.launch.py
 	Driver/controller/launch/controller.launch.py
+		Controller/launch/odom_publisher.launch.py
+		peripherals/launch/imu_filter.launch.py
+		robot_localization/ekf_node可执行文件
 		Servo_controller/launch/servo_controller.launch.py
 			调用可执行文件/src/driver/servo_controller/servo_controller/controller_manager.py
-				其中以self.controllers字典保存对象jointpositioncontroller,这个对象报错每个joint相关的舵机信息
-				以servoManager对象来对所有对象进行控制
+				其中以self.controllers字典保存对象jointpositioncontroller,这个对象报错每个joint相关的舵机信息，该类作用为对每个舵机的关节角转换成脉宽等信息   servo_controller
+				实例化servoManager，这个函数会发布目标关节角的话题，话题名为：'ros_robot_controller/bus_servo/set_position
 
+				在ini_pose.py 调用该文件中的类，并传过来话题以后，于确定关节角数据为带宽类型，也就是明白这个是一个已经预设好的状态组数组，调用servo_controller.py 类中的server_manager类中的set_position 方法完成下一步的信息发布
+
+			进一步调用servo_controller.py中的servo_manager类：
+				对接受到的信息进行了一次取值范围的确定以后以ServosPosition为话题类型,以 'ros_robot_controller/bus_servo/set_position'为话题名称发布
+	peripherals/launch/depth_camera.launch.py
+	peripherals/launch/lidar.launch.py
+	cmd=['ros2', 'launch', 'rosbridge_server', 'rosbridge_websocket_launch.xml'],
+	package='web_video_server',executable='web_video_server',
+	app_package_path, 'launch/start_app.launch.py
+	controller_package_path, 'launch/init_pose.launch.py'
+        package='controller', executable='init_pose',
+			在该可执行文件中从数据库文件中读取带宽，并且发送msg到controller_manager话题上，在这里传输的话题中包含的信息包含不同时间点机械臂关节状态以及在该过程运动时间
+	peripherals_package_path, 'launch/joystick_control.launch.py'
+    package='bringup',executable='startup_check',
 
 
 

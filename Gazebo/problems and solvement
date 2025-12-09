@@ -162,3 +162,5 @@ QT_QPA_PLATFORM=xcb ros2 launch moveit_setup_assistant setup_assistant.launch.py
 转换文件格式曾经尝试下载了blander软件并导入，发现没有dae到处格式的选项，现在发现一个网上在线的免费转换网站：https://anyconv.com/stl-to-dae-converter/
 在全部stl文件转换成dae文件以后，修改完urdf文件中的文件路径，用该指令（QT_QPA_PLATFORM=xcb ros2 launch moveit_setup_assistant setup_assistant.launch.py）成功的启动了
 moveit并且加载了文件，但是在第二次尝试以后不可以了，连moveit官方的工作空间中的pandas模型都加载不了，目前不知道什么原因
+
+只是提供假设上的参考，会不会是新生成的urdf文件的特殊性使得moveit比较容易接受？

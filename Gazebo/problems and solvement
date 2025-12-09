@@ -160,3 +160,5 @@ QT_QPA_PLATFORM=xcb ros2 launch moveit_setup_assistant setup_assistant.launch.py
 
 于25.12.8尝试将所有的stl文件转换成dae格式。由于之前咋启动moveit官方的pandas模型都是非常正常的，但是启动其中另外一个包含stl格式的文件，就也会出现崩溃的情况，考虑到很多时候都是用dae格式的文件，且这两种情况为数不多的变量就是这个模型文件的格式，故进行上述的尝试
 转换文件格式曾经尝试下载了blander软件并导入，发现没有dae到处格式的选项，现在发现一个网上在线的免费转换网站：https://anyconv.com/stl-to-dae-converter/
+在全部stl文件转换成dae文件以后，修改完urdf文件中的文件路径，用该指令（QT_QPA_PLATFORM=xcb ros2 launch moveit_setup_assistant setup_assistant.launch.py）成功的启动了
+moveit并且加载了文件，但是在第二次尝试以后不可以了，连moveit官方的工作空间中的pandas模型都加载不了，目前不知道什么原因

@@ -158,4 +158,5 @@ QT_QPA_PLATFORM=xcb ros2 launch moveit_setup_assistant setup_assistant.launch.py
 
 在出现配置rviz launch文件，启动以后link关节显示不全，报错link到根link连接不完整，是因为没有用joint publisher gui节点没有调用，很多link是靠joint串联传递到根link的，缺少这个link就会出现joint不发布，link链接断裂不完整的情况
 
-
+于25.12.8尝试将所有的stl文件转换成dae格式。由于之前咋启动moveit官方的pandas模型都是非常正常的，但是启动其中另外一个包含stl格式的文件，就也会出现崩溃的情况，考虑到很多时候都是用dae格式的文件，且这两种情况为数不多的变量就是这个模型文件的格式，故进行上述的尝试
+转换文件格式曾经尝试下载了blander软件并导入，发现没有dae到处格式的选项，现在发现一个网上在线的免费转换网站：https://anyconv.com/stl-to-dae-converter/
